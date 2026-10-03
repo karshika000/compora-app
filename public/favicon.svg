@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <!-- Main 'C' Blue to Violet Gradient -->
+    <linearGradient id="fav_c_grad" x1="30" y1="50" x2="170" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0ea5e9" />
+      <stop offset="25%" stop-color="#2563eb" />
+      <stop offset="65%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+
+    <!-- Graduation Cap Gradient -->
+    <linearGradient id="fav_cap_grad" x1="20" y1="12" x2="180" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="50%" stop-color="#1e40af" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+
+    <!-- Center Book & Scholars Gradient -->
+    <linearGradient id="fav_center_grad" x1="70" y1="85" x2="130" y2="155" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="50%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#4338ca" />
+    </linearGradient>
+  </defs>
+
+  <!-- 1. Graduation Cap -->
+  <path d="M100 12 L174 38 L100 64 L26 38 Z" fill="url(#fav_cap_grad)" />
+  <path d="M62 48.5 L62 59 C62 68 79 73 100 73 C121 73 138 68 138 59 L138 48.5 L100 62.5 Z" fill="#172554" opacity="0.96" />
+  <circle cx="100" cy="38" r="3.5" fill="#93c5fd" />
+  <path d="M100 38 Q140 43 148 58 L148 76" stroke="#1e3a8a" stroke-width="3.2" stroke-linecap="round" fill="none" />
+  <path d="M144 74 C144 74 141 85 143 89 C145 91 150 91 152 89 C154 85 151 74 151 74 Z" fill="#2563eb" />
+
+  <!-- 2. The Main 'C' Loop -->
+  <path d="M142 76 C130 63 115 54 98 54 C65 54 38 80 38 112 C38 144 65 170 98 170 C116 170 133 161 145 145 L124 130 C117 140 108 146 98 146 C78 146 62 131 62 112 C62 93 78 78 98 78 C108 78 117 83 123 92 Z" fill="url(#fav_c_grad)" />
+
+  <!-- 3. Center Scholars & Open Book -->
+  <g fill="url(#fav_center_grad)">
+    <circle cx="100" cy="94" r="5.5" />
+    <path d="M91 114 C91 104 94 102 100 102 C106 102 109 104 109 114 Z" />
+    <circle cx="83" cy="99" r="4.2" />
+    <path d="M75 116 C75 108 78 106 83 106 C87 106 89 108 89 116 Z" />
+    <circle cx="117" cy="99" r="4.2" />
+    <path d="M111 116 C111 108 113 106 117 106 C122 106 125 108 125 116 Z" />
+    <path d="M100 128 C92 122 82 118 70 119 L70 131 C82 130 92 134 100 141 Z" />
+    <path d="M100 128 C108 122 118 118 130 119 L130 131 C118 130 108 134 100 141 Z" />
+  </g>
+</svg>

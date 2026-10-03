@@ -1,0 +1,266 @@
+{
+  "students": [
+    {
+      "id": "std-1",
+      "student_id": "26CSE001",
+      "name": "Yogakarshika",
+      "department": "CSE",
+      "year": "3rd Year",
+      "section": "Section A",
+      "house": "Red",
+      "email": "26cse001@titan.edu",
+      "phone": "+91 98401 23456",
+      "date_of_birth": "2005-04-01",
+      "birth_year": 2005,
+      "birthYear": 2005
+    }
+  ],
+  "teachers": [
+    {
+      "id": "teach-1",
+      "user_id": "usr-stf001",
+      "staffId": "STF001",
+      "staff_id": "STF001",
+      "name": "Arun Kumar",
+      "email": "arun.kumar@titan.edu",
+      "department": "CSE",
+      "phone": "+91 98401 22334",
+      "designation": "Associate Professor",
+      "date_of_birth": "1985-07-15",
+      "birthYear": 1985,
+      "birth_year": 1985,
+      "assigned_classes": [
+        "3rd Year CSE A",
+        "1st Year CSE A"
+      ],
+      "assigned_subjects": [
+        "Data Structures & Algorithms",
+        "Database Systems"
+      ],
+      "can_publish_events": true,
+      "status": "Active"
+    }
+  ],
+  "events": [],
+  "achievements": [],
+  "participations": [],
+  "users": [
+    {
+      "id": "usr-admin-1",
+      "username": "admin",
+      "email": "admin@titan.edu",
+      "name": "Dr. K. S. Ramanathan",
+      "role": "ADMIN",
+      "status": "Active",
+      "phone": "+91 98400 11223",
+      "created_at": "2026-01-01T08:00:00.000Z",
+      "password_hash": "2ea7a6c9ebf74c7e6c9861ecab3d7c04:54497e78a6db9e4ef7ff8a02d447d2f4d6d63e9f3b97b0a7c4f4640ce97645bf90f3a61c33842c174b29bbcf45781a967568ee3dfb031d255f00e9ec03ef8ef8"
+    },
+    {
+      "id": "usr-stf001",
+      "username": "STF001",
+      "email": "arun.kumar@titan.edu",
+      "name": "Arun Kumar",
+      "role": "TEACHER",
+      "status": "Active",
+      "staff_id": "STF001",
+      "teacher_id": "teach-1",
+      "department": "CSE",
+      "date_of_birth": "1985-07-15",
+      "phone": "+91 98401 22334",
+      "password_changed": false,
+      "created_at": "2026-01-05T09:30:00.000Z",
+      "password_hash": "63f52467b36f7cf4366887019623e105:7c427fbf3c457fa95dc963870630b912a52efc152a559ea990e6e789531818d6e3c0ee0ecfe59feec2284918f67e5a0e9fa5693fc18b85770c0c6604d7dbbfb4"
+    },
+    {
+      "id": "usr-26cse001",
+      "username": "26CSE001",
+      "email": "26cse001@titan.edu",
+      "name": "Yogakarshika",
+      "role": "STUDENT",
+      "status": "Active",
+      "student_id": "26CSE001",
+      "department": "CSE",
+      "date_of_birth": "2005-04-01",
+      "phone": "+91 98401 23456",
+      "password_changed": false,
+      "created_at": "2026-01-15T11:00:00.000Z",
+      "password_hash": "e674488349fa81b8579cf44171876878:3b5f007b71ea00d8b4bf4ec5b3644f2ef31eb4e9ad011ff271032df4c50ea17a3a525f622efd88001fbca1a58c0c80d85eeaa4c194b5f891eb8f1f516fc42426"
+    }
+  ],
+  "academic_classes": [
+    {
+      "id": "cls-1",
+      "name": "4th Year CSE A",
+      "department": "CSE",
+      "year": "4th Year",
+      "section": "Section A",
+      "student_count": 0,
+      "class_advisor": "Dr. Arun Kumar"
+    },
+    {
+      "id": "cls-2",
+      "name": "4th Year CSE B",
+      "department": "CSE",
+      "year": "4th Year",
+      "section": "Section B",
+      "student_count": 0,
+      "class_advisor": "Dr. Arun Kumar"
+    },
+    {
+      "id": "cls-3",
+      "name": "3rd Year CSE A",
+      "department": "CSE",
+      "year": "3rd Year",
+      "section": "Section A",
+      "student_count": 1,
+      "class_advisor": "Dr. Arun Kumar"
+    },
+    {
+      "id": "cls-4",
+      "name": "3rd Year CSE B",
+      "department": "CSE",
+      "year": "3rd Year",
+      "section": "Section B",
+      "student_count": 0,
+      "class_advisor": "Dr. Arun Kumar"
+    },
+    {
+      "id": "cls-5",
+      "name": "2nd Year CSE A",
+      "department": "CSE",
+      "year": "2nd Year",
+      "section": "Section A",
+      "student_count": 0,
+      "class_advisor": "Dr. Arun Kumar"
+    },
+    {
+      "id": "cls-6",
+      "name": "2nd Year CSE B",
+      "department": "CSE",
+      "year": "2nd Year",
+      "section": "Section B",
+      "student_count": 0,
+      "class_advisor": "Dr. Arun Kumar"
+    },
+    {
+      "id": "cls-7",
+      "name": "1st Year CSE A",
+      "department": "CSE",
+      "year": "1st Year",
+      "section": "Section A",
+      "student_count": 0,
+      "class_advisor": "Dr. Arun Kumar"
+    },
+    {
+      "id": "cls-8",
+      "name": "1st Year CSE B",
+      "department": "CSE",
+      "year": "1st Year",
+      "section": "Section B",
+      "student_count": 0,
+      "class_advisor": "Dr. Arun Kumar"
+    }
+  ],
+  "subjects": [
+    {
+      "id": "sub-1",
+      "code": "CS101",
+      "name": "Programming in C",
+      "department": "CSE",
+      "semester": "Semester 1",
+      "year": "1st Year",
+      "credits": 4
+    },
+    {
+      "id": "sub-2",
+      "code": "CS102",
+      "name": "Discrete Mathematics",
+      "department": "CSE",
+      "semester": "Semester 1",
+      "year": "1st Year",
+      "credits": 4
+    },
+    {
+      "id": "sub-3",
+      "code": "CS201",
+      "name": "Data Structures & Algorithms",
+      "department": "CSE",
+      "semester": "Semester 3",
+      "year": "2nd Year",
+      "credits": 4
+    },
+    {
+      "id": "sub-4",
+      "code": "CS202",
+      "name": "Computer Architecture",
+      "department": "CSE",
+      "semester": "Semester 3",
+      "year": "2nd Year",
+      "credits": 3
+    },
+    {
+      "id": "sub-5",
+      "code": "CS301",
+      "name": "Database Management Systems",
+      "department": "CSE",
+      "semester": "Semester 5",
+      "year": "3rd Year",
+      "credits": 4
+    },
+    {
+      "id": "sub-6",
+      "code": "CS302",
+      "name": "Operating Systems",
+      "department": "CSE",
+      "semester": "Semester 5",
+      "year": "3rd Year",
+      "credits": 3
+    },
+    {
+      "id": "sub-7",
+      "code": "CS303",
+      "name": "Computer Networks",
+      "department": "CSE",
+      "semester": "Semester 6",
+      "year": "3rd Year",
+      "credits": 4
+    },
+    {
+      "id": "sub-8",
+      "code": "CS401",
+      "name": "Cloud Computing & DevOps",
+      "department": "CSE",
+      "semester": "Semester 7",
+      "year": "4th Year",
+      "credits": 3
+    },
+    {
+      "id": "sub-9",
+      "code": "CS402",
+      "name": "Software Engineering & Agile",
+      "department": "CSE",
+      "semester": "Semester 7",
+      "year": "4th Year",
+      "credits": 3
+    },
+    {
+      "id": "sub-10",
+      "code": "CS403",
+      "name": "Information & Cyber Security",
+      "department": "CSE",
+      "semester": "Semester 8",
+      "year": "4th Year",
+      "credits": 3
+    }
+  ],
+  "results": [],
+  "assignments": [],
+  "submissions": [],
+  "announcements": [],
+  "notifications": [],
+  "calendar_events": [],
+  "timetable_entries": [],
+  "exams": [],
+  "holidays": []
+}
