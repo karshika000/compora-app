@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { User, UserRole } from './src/types';
+import { User, UserRole, Student, Teacher } from './src/types';
 import { SEED_STUDENTS } from './src/data/seedStudents';
 import { SEED_TEACHERS } from './src/data/seedTeachers';
 
@@ -52,24 +52,29 @@ export function sanitizeUser(user: UserRecord): User {
 
 /**
  * Generates default password formula:
- * first 4 letters of student's full name in lowercase + '@' + birth year
- * Example: Yogakarshika S (DOB 2005-04-01) -> yoga@2005
+ * first 4 letters of name in lowercase + '@' + birth year
+ * Example: Yogakarshika (DOB 2005-04-01) -> yoga@2005
  */
-export function generateDefaultPassword(name: string, birthYear: number): string {
-  // Remove title prefixes like Dr., Prof., etc.
-  const withoutTitle = name.replace(/^(Prof\.|Dr\.|Mr\.|Mrs\.|Ms\.)\s+/i, '').trim();
-  // Get first primary name word (ignoring trailing single letter initials)
-  const firstWord = withoutTitle.split(/\s+/)[0] || withoutTitle;
-  const clean = firstWord.replace(/[^a-zA-Z]/g, '').toLowerCase();
-  const prefix = (clean.slice(0, 4) || 'user').padEnd(4, 'x');
-  return `${prefix}@${birthYear}`;
+export function generateDefaultPassword(name: string, birthYearOrDob: number | string): string {
+  const withoutTitle = (name || '').replace(/^(Prof\.|Dr\.|Mr\.|Mrs\.|Ms\.|Er\.)\s+/i, '').trim();
+  const letters = withoutTitle.replace(/[^a-zA-Z]/g, '').toLowerCase();
+  const prefix = (letters.slice(0, 4) || 'user').padEnd(4, 'x');
+  
+  let year = 2005;
+  if (typeof birthYearOrDob === 'number') {
+    year = birthYearOrDob;
+  } else if (typeof birthYearOrDob === 'string') {
+    const match = birthYearOrDob.match(/\b(19\d\d|20\d\d)\b/);
+    if (match) year = parseInt(match[1], 10);
+  }
+  return `${prefix}@${year}`;
 }
 
 /**
  * Full system user database with pre-hashed credentials:
  * - Admin: admin / admin123
- * - 1 Teacher: Username = STF001, Initial Password = arun@1985 (DOB: 1985-07-15)
- * - 1 Student: Username = 26CSE001, Initial Password = yoga@2005 (DOB: 2005-04-01)
+ * - All Teachers (from SEED_TEACHERS)
+ * - All Students (from SEED_STUDENTS)
  */
 export function createDefaultUsers(): UserRecord[] {
   const users: UserRecord[] = [
@@ -85,42 +90,53 @@ export function createDefaultUsers(): UserRecord[] {
       created_at: new Date().toISOString(),
       password_hash: hashPassword('admin123'),
     },
+  ];
 
-    // 2. Initial Faculty Account (STF001 / arun@1985)
-    {
-      id: 'usr-stf001',
-      username: 'STF001',
-      email: 'arun.kumar@compora.edu',
-      name: 'Arun Kumar',
+  // 2. Add all faculty accounts
+  SEED_TEACHERS.forEach((t) => {
+    const staffId = t.staff_id || (t as any).staffId || t.id;
+    const birthYear = t.birth_year || (t as any).birthYear || t.date_of_birth || 1985;
+    const defaultPassword = generateDefaultPassword(t.name, birthYear);
+    
+    users.push({
+      id: t.user_id || `usr-${staffId.toLowerCase()}`,
+      username: staffId,
+      email: t.email,
+      name: t.name,
       role: 'TEACHER',
-      status: 'Active',
-      staff_id: 'STF001',
-      teacher_id: 'teach-1',
-      department: 'CSE',
-      date_of_birth: '1985-07-15',
-      phone: '+91 98401 22334',
+      status: t.status || 'Active',
+      staff_id: staffId,
+      teacher_id: t.id,
+      department: t.department,
+      date_of_birth: t.date_of_birth,
+      phone: t.phone,
       password_changed: false,
       created_at: new Date().toISOString(),
-      password_hash: hashPassword('arun@1985'),
-    },
+      password_hash: hashPassword(defaultPassword),
+    });
+  });
 
-    // 3. Initial Student Account (26CSE001 / yoga@2005)
-    {
-      id: 'usr-26cse001',
-      username: '26CSE001',
-      email: '26cse001@compora.edu',
-      name: 'Yogakarshika',
+  // 3. Add all student accounts
+  SEED_STUDENTS.forEach((s) => {
+    const birthYear = s.birth_year || (s as any).birthYear || s.date_of_birth || 2005;
+    const defaultPassword = generateDefaultPassword(s.name, birthYear);
+
+    users.push({
+      id: `usr-${s.student_id.toLowerCase()}`,
+      username: s.student_id,
+      email: s.email || `${s.student_id.toLowerCase()}@compora.edu`,
+      name: s.name,
       role: 'STUDENT',
       status: 'Active',
-      student_id: '26CSE001',
-      department: 'CSE',
-      date_of_birth: '2005-04-01',
-      phone: '+91 98401 23456',
+      student_id: s.student_id,
+      department: s.department,
+      date_of_birth: s.date_of_birth,
+      phone: s.phone,
       password_changed: false,
       created_at: new Date().toISOString(),
-      password_hash: hashPassword('yoga@2005'),
-    },
-  ];
+      password_hash: hashPassword(defaultPassword),
+    });
+  });
 
   return users;
 }

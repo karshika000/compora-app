@@ -54,6 +54,24 @@ import {
   INITIAL_PARTICIPATION,
 } from './data/initialData';
 import {
+  getLocalStudents,
+  saveLocalStudents,
+  getLocalTeachers,
+  saveLocalTeachers,
+  getLocalClasses,
+  getLocalSubjects,
+  getLocalResults,
+  saveLocalResults,
+  getLocalAssignments,
+  getLocalSubmissions,
+  getLocalEvents,
+  getLocalAchievements,
+  getLocalParticipations,
+  getLocalAnnouncements,
+  getLocalCalendarEvents,
+  getLocalTimetable,
+} from './utils/localDB';
+import {
   calculateHouseStats,
   calculateDepartmentStats,
   calculateYearStats,
@@ -62,7 +80,7 @@ import { getStoredTheme, applyTheme, subscribeToSystemTheme } from './utils/them
 import { getNotificationPreferences, saveNotificationPreferences } from './utils/notificationPrefs';
 
 export default function App() {
-  const { currentUser, loading: authLoading, linkedStudent, authFetch } = useAuth();
+  const { currentUser, loading: authLoading, linkedStudent, linkedTeacher, authFetch } = useAuth();
 
   const [activeTab, setActiveTab] = useState<NavTab>('dashboard');
   const [dataLoading, setDataLoading] = useState<boolean>(true);
@@ -113,21 +131,21 @@ export default function App() {
     addToast('Notification preferences updated.', 'info');
   };
 
-  // Core Data Collections
-  const [students, setStudents] = useState<Student[]>(INITIAL_STUDENTS);
-  const [events, setEvents] = useState<CollegeEvent[]>(INITIAL_EVENTS);
-  const [achievements, setAchievements] = useState<Achievement[]>(INITIAL_ACHIEVEMENTS);
-  const [participations, setParticipations] = useState<EventParticipation[]>(INITIAL_PARTICIPATION);
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const [academicClasses, setAcademicClasses] = useState<AcademicClass[]>([]);
-  const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  // Core Data Collections (Initialized with local verified datasets)
+  const [students, setStudents] = useState<Student[]>(getLocalStudents);
+  const [events, setEvents] = useState<CollegeEvent[]>(getLocalEvents);
+  const [achievements, setAchievements] = useState<Achievement[]>(getLocalAchievements);
+  const [participations, setParticipations] = useState<EventParticipation[]>(getLocalParticipations);
+  const [teachers, setTeachers] = useState<Teacher[]>(getLocalTeachers);
+  const [academicClasses, setAcademicClasses] = useState<AcademicClass[]>(getLocalClasses);
+  const [subjects, setSubjects] = useState<Subject[]>(getLocalSubjects);
+  const [announcements, setAnnouncements] = useState<Announcement[]>(getLocalAnnouncements);
   const [teacherProfile, setTeacherProfile] = useState<Teacher | null>(null);
-  const [results, setResults] = useState<StudentResult[]>([]);
-  const [assignments, setAssignments] = useState<Assignment[]>([]);
-  const [submissions, setSubmissions] = useState<AssignmentSubmission[]>([]);
-  const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>([]);
-  const [timetableEntries, setTimetableEntries] = useState<TimetableEntry[]>([]);
+  const [results, setResults] = useState<StudentResult[]>(getLocalResults);
+  const [assignments, setAssignments] = useState<Assignment[]>(getLocalAssignments);
+  const [submissions, setSubmissions] = useState<AssignmentSubmission[]>(getLocalSubmissions);
+  const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>(getLocalCalendarEvents);
+  const [timetableEntries, setTimetableEntries] = useState<TimetableEntry[]>(getLocalTimetable);
 
   // Selected Student Profile Modal
   const [selectedStudentModal, setSelectedStudentModal] = useState<Student | null>(null);
@@ -405,18 +423,49 @@ export default function App() {
   // Fallback student object if linkedStudent is null
   const effectiveStudent: Student = useMemo(() => {
     if (linkedStudent) return linkedStudent;
+    if (currentUser?.student_id) {
+      const found = students.find(
+        (s) => s.student_id.toLowerCase() === currentUser.student_id?.toLowerCase()
+      );
+      if (found) return found;
+    }
+    if (currentUser?.username) {
+      const found = students.find(
+        (s) => s.student_id.toLowerCase() === currentUser.username.toLowerCase()
+      );
+      if (found) return found;
+    }
     if (students.length > 0) return students[0];
     return {
       id: 'demo-std',
-      student_id: 'CS-2024-001',
-      name: currentUser?.name || 'Student Account',
+      student_id: '26CSE001',
+      name: currentUser?.name || 'Yogakarshika',
       department: 'CSE',
       year: '3rd Year',
-      section: 'A',
+      section: 'Section A',
       house: 'Red',
-      email: currentUser?.email || 'student@college.edu',
+      email: currentUser?.email || '26cse001@compora.edu',
     };
   }, [linkedStudent, students, currentUser]);
+
+  // Fallback teacher object if teacherProfile is null
+  const effectiveTeacher: Teacher | null = useMemo(() => {
+    if (teacherProfile) return teacherProfile;
+    if (linkedTeacher) return linkedTeacher;
+    if (currentUser?.staff_id || currentUser?.teacher_id || currentUser?.username) {
+      const queryStaff = (currentUser.staff_id || currentUser.username || '').toLowerCase();
+      const queryId = currentUser.teacher_id || '';
+      const found = teachers.find(
+        (t) =>
+          (t.staff_id && t.staff_id.toLowerCase() === queryStaff) ||
+          ((t as any).staffId && (t as any).staffId.toLowerCase() === queryStaff) ||
+          (t.id && (t.id === queryId || t.id.toLowerCase() === queryStaff)) ||
+          (t.email && currentUser.email && t.email.toLowerCase() === currentUser.email.toLowerCase())
+      );
+      if (found) return found;
+    }
+    return teachers[0] || null;
+  }, [teacherProfile, linkedTeacher, currentUser, teachers]);
 
   // Students Handlers
   const handleAddStudent = async (newStudent: Omit<Student, 'id'>): Promise<boolean> => {
@@ -871,7 +920,7 @@ export default function App() {
               />
             ) : role === 'TEACHER' ? (
               <TeacherDashboardView
-                teacher={teacherProfile}
+                teacher={effectiveTeacher}
                 students={students}
                 assignments={assignments}
                 submissions={submissions}

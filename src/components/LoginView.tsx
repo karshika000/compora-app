@@ -65,7 +65,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username.trim() || !password) {
-      setErrorMessage('Invalid username or password.');
+      setErrorMessage('Invalid username/password');
       return;
     }
 
@@ -78,7 +78,7 @@ export const LoginView: React.FC<LoginViewProps> = ({
     if (res.success) {
       if (onLoginSuccess) onLoginSuccess();
     } else {
-      setErrorMessage('Invalid username or password.');
+      setErrorMessage(res.error || 'Invalid username/password');
     }
   };
 
